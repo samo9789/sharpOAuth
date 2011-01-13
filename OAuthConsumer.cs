@@ -9,7 +9,6 @@ namespace OAuth
 {
     public class OAuthConsumer : OauthBase
     {
-        private Dictionary<string, string> config;
         private OAuthConfig _oauthConfig;
 
         public OAuthConfig OauthConfig
