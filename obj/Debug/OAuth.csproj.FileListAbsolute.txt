@@ -1,5 +1,0 @@
-C:\Documents and Settings\samo\Mes documents\Workspace\bkMicrosoft\summer10\OAuth\bin\Debug\OAuth.dll
-C:\Documents and Settings\samo\Mes documents\Workspace\bkMicrosoft\summer10\OAuth\bin\Debug\OAuth.pdb
-C:\Documents and Settings\samo\Mes documents\Workspace\bkMicrosoft\summer10\OAuth\obj\Debug\ResolveAssemblyReference.cache
-C:\Documents and Settings\samo\Mes documents\Workspace\bkMicrosoft\summer10\OAuth\obj\Debug\OAuth.dll
-C:\Documents and Settings\samo\Mes documents\Workspace\bkMicrosoft\summer10\OAuth\obj\Debug\OAuth.pdb
