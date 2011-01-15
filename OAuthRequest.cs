@@ -9,9 +9,9 @@ using System.Diagnostics;
 
 namespace OAuth
 {
-    public class OAuthRequest : OauthBase
+    public class OAuthRequest : OAuthBase
     {
-        private OAuthConsumer _consumer;
+        private OAuthConsumer _consumer;        
         
         public OAuthRequest(OAuthConsumer consumer, string debugType) : base (debugType)
         {
@@ -48,7 +48,7 @@ namespace OAuth
         /// <param name="normalizedUrl">the normalized Url (returned)</param>
         /// <param name="normalizedRequestParameters">the normalized parameters (returned)</param>
         /// <returns>a string to be used as the request signature base</returns>
-        private string _generateSignatureBase(Uri url, List<QueryParameter> parameters, string consumerSecret, out string normalizedUrl, out string normalizedRequestParameters)
+        private string _generateSignatureBase(Uri url, string httpMethod, List<QueryParameter> parameters, string consumerSecret, out string normalizedUrl, out string normalizedRequestParameters)
         {       
             normalizedUrl = null;
             normalizedRequestParameters = null;
@@ -63,12 +63,10 @@ namespace OAuth
             }
             normalizedUrl += url.AbsolutePath;
             normalizedRequestParameters = base.NormalizeRequestParameters(parameters);
-
-            string httpMethod = "GET";
             StringBuilder signatureBase = new StringBuilder();
-            signatureBase.AppendFormat("{0}&", httpMethod.ToUpper());
-            signatureBase.AppendFormat("{0}&", UrlEncode(normalizedUrl));
-            signatureBase.AppendFormat("{0}", UrlEncode(normalizedRequestParameters));
+            signatureBase.AppendFormat("{0}&", httpMethod);
+            signatureBase.AppendFormat("{0}&", OAuthBase.UrlEncode(normalizedUrl));
+            signatureBase.AppendFormat("{0}", OAuthBase.UrlEncode(normalizedRequestParameters));
             
             return signatureBase.ToString();        
         }
@@ -97,15 +95,15 @@ namespace OAuth
         /// <param name="normalizedUrl">the normalized url of the request</param>
         /// <param name="normalizedUrlWithParameters">the normalized url of the request with the parameters</param>
         /// <returns></returns>
-        private string _generateSignature(Uri url, List<QueryParameter> parameters, string signatureMethod, string consumerSecret, string oauth_token, out string normalizedUrl, out string normalizedUrlWithParameters)
+        private string _generateSignature(Uri url, string httpMethod, List<QueryParameter> parameters, string signatureMethod, string consumerSecret, string oauth_token, out string normalizedUrl, out string normalizedUrlWithParameters)
         {
             string tokenSecret = oauth_token;
             switch (signatureMethod)
             {             
                 case "HMAC-SHA1":
-                    string signatureBase = this._generateSignatureBase(url, parameters, consumerSecret, out normalizedUrl, out normalizedUrlWithParameters);
+                    string signatureBase = this._generateSignatureBase(url, httpMethod, parameters, consumerSecret, out normalizedUrl, out normalizedUrlWithParameters);
                     HMACSHA1 hmacsha1 = new HMACSHA1();
-                    hmacsha1.Key = Encoding.UTF8.GetBytes(string.Format("{0}&{1}", UrlEncode(consumerSecret), string.IsNullOrEmpty(tokenSecret) ? "" : UrlEncode(tokenSecret)));                    
+                    hmacsha1.Key = Encoding.UTF8.GetBytes(string.Format("{0}&{1}", UrlEncode(consumerSecret), string.IsNullOrEmpty(tokenSecret) ? "" : UrlEncode(tokenSecret)));                         
                     return this._generateSignatureUsingHash(signatureBase, hmacsha1);
                 default:
                     throw new Exception("signature method not yet implemented");
@@ -120,13 +118,14 @@ namespace OAuth
         /// <param name="oauthTokenSecret">oauth token secret (if exists)</param>
         /// <param name="extraParameters">the list of parameters to send the service</param>
         /// <returns></returns>
-        public string request(Uri url, string oauthToken, string oauthTokenSecret, List<QueryParameter> extraParameters)
+        public string request(Uri url, string httpMethod, string oauthToken, string oauthTokenSecret, List<QueryParameter> extraParameters)
         {
+            httpMethod = httpMethod.ToUpper();
             string normalizedUrl = String.Empty;
             string normalizedUrlWithParameters = String.Empty;
             
             // Generate the parameters based on the Oauth Configuration of the Consumer
-            List<QueryParameter> parameters = new List<QueryParameter>();                        
+            List<QueryParameter> parameters = new List<QueryParameter>();               
             parameters.Add(new QueryParameter("oauth_consumer_key", this._consumer.OauthConfig.ConsumerKey));
             parameters.Add(new QueryParameter("oauth_nonce", this._generateNonce()));
             parameters.Add(new QueryParameter("oauth_timestamp", this._generateTimestamp()));
@@ -146,19 +145,48 @@ namespace OAuth
             {
                 foreach (QueryParameter param in extraParameters)
                 {                    
-                    parameters.Add(param);                    
+                    parameters.Add(param);                  
                 }
             }
 
             // Generate the OAuth Signature and add it to the parameters
-            string signature = this._generateSignature(url, parameters, this._consumer.OauthConfig.OauthSignatureMethod, this._consumer.OauthConfig.ConsumerSecret, oauthTokenSecret, out normalizedUrl, out normalizedUrlWithParameters);
+            string signature = this._generateSignature(url, httpMethod, parameters, this._consumer.OauthConfig.OauthSignatureMethod, this._consumer.OauthConfig.ConsumerSecret, oauthTokenSecret, out normalizedUrl, out normalizedUrlWithParameters);
             parameters.Add(new QueryParameter("oauth_signature", signature));                 
             
             try
-            {                   
-                string oauthUrl = normalizedUrl + '?' + normalizedUrlWithParameters + "&oauth_signature=" + signature;   
+            {
+                string oauthUrl = "";
+                if (httpMethod == "GET")
+                {
+                    oauthUrl = normalizedUrl + '?' + normalizedUrlWithParameters + "&oauth_signature=" + signature;
+                }
+                else
+                {
+                    oauthUrl = normalizedUrl;
+                }
+                
                 System.Net.HttpWebRequest request = System.Net.HttpWebRequest.Create(oauthUrl) as System.Net.HttpWebRequest;
-                request.ProtocolVersion = HttpVersion.Version10;
+                request.ProtocolVersion = HttpVersion.Version10;                
+
+                if (httpMethod == "POST")
+                {
+                    /*StringBuilder postRequest = new StringBuilder();
+                    int countParams = 0;
+                    foreach (QueryParameter param in extraParameters)
+                    {   
+                        if (countParams > 0) postRequest.Append('&');
+                        postRequest.Append(param.Name + "=" + HttpUtility.UrlEncode(param.Value));
+                    }*/
+                    string postRequest = normalizedUrlWithParameters;
+                    Byte[] bufferrequest = System.Text.Encoding.UTF8.GetBytes(postRequest + "&oauth_signature=" + signature);
+                    request.Method = "POST";
+                    request.ContentType = "application/x-www-form-urlencoded";
+                    request.ContentLength = bufferrequest.Length;
+                    System.IO.Stream requestStream = request.GetRequestStream();
+                    requestStream.Write(bufferrequest, 0, bufferrequest.Length);
+                    requestStream.Close();
+                }
+
                 System.Net.HttpWebResponse response = request.GetResponse() as System.Net.HttpWebResponse;
                 System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream());
                 String content = reader.ReadToEnd();                

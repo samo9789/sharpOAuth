@@ -5,19 +5,18 @@ using System.Text;
 
 namespace OAuth
 {
-    public class OAuthConfig : OauthBase
+    public class OAuthConfig : OAuthBase
     {
 
         private string _siteUrl;     
         private string _consumerKey;
         private string _consumerSecret;
-        private string _tokenKey;
-        private string _tokenSecret;
         private string _oauthToken;       
         private string _oauthTokenSecret;
         private string _oauthTokenTtl;
-        private string _userAuthorizationUrl;
+		private string _requestTokenUrl;
         private string _accessTokenUrl;
+		private string _userAuthorizationUrl;
         private string _oauthVersion;
         private string _oauthSignatureMethod;
 
@@ -39,24 +38,6 @@ namespace OAuth
             set { _consumerSecret = value; }
         }
 
-        public string TokenKey
-        {
-            get { return _tokenKey; }
-            set { 
-                _tokenKey = value;
-                _oauthToken = TokenKey;
-            }
-        }
-
-        public string TokenSecret
-        {
-            get { return _tokenSecret; }
-            set { 
-                _tokenSecret = value;
-                _oauthTokenSecret = _tokenSecret;
-            }
-        }
-
         public string OauthToken
         {
             get { return _oauthToken; }
@@ -74,17 +55,22 @@ namespace OAuth
             get { return _oauthTokenTtl; }
             set { _oauthTokenTtl = value; }
         }
-
-        public string UserAuthorizationUrl
-        {
-            get { return _userAuthorizationUrl; }
-            set { _userAuthorizationUrl = value; }
-        }
+		
+		public string RequestTokenUrl {
+			get { return this._requestTokenUrl;}
+			set { _requestTokenUrl = value;}
+		}
 
         public string AccessTokenUrl
         {
             get { return _accessTokenUrl; }
             set { _accessTokenUrl = value; }
+        }
+		
+		public string UserAuthorizationUrl
+        {
+            get { return _userAuthorizationUrl; }
+            set { _userAuthorizationUrl = value; }
         }
         
         public string OauthVersion

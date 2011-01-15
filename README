@@ -1,5 +1,32 @@
-This OAuth .Net Library Class is distributed under the MIT License: 
+License and Acknowledgments
+===========================
+
+SharpOauth is an OAuth Consumer .Net Library Class developed in C# and distributed under the MIT License: 
 http://www.opensource.org/licenses/mit-license.php
 
-The Library is currently in alpha.
+I've coded this library as part of an addin for Microsoft Office which calls an API using the OAuth protocol having failed to find a lightweight library on OAuth.net.
+A fellow developer gave me a start by sharing with me some C# Code including the OAuthBase.cs class. It seems this class originated with Tim Pinkawa [http://www.timpinkawa.net/misc/oauthbasetwitter.html].
+This work is built on these contributions.
+
 It is shared on GIT Hub: https://github.com/samo9789
+
+Code Samples
+============
+
+The code samples call the twitter API for test purposes.
+You need a Twitter consumerKey and consumerSecret to run them.
+
+The first code sample [sample1_twitterClient] calls the Twitter API like a Desktop/Mobile application would. That means that the authorization process is completed by entering a pincode (in the console window).
+The second code sample [sample2_twitterWeb (not yet implemented)] will call the Twitter API as a web application. The authorization process will open the callbackUrl.
+
+Compatibility
+=============
+
+I've tested this library in my Office Addin on a Microsoft Windows XP Environment with Visual Studio Pro.
+I've also worked with this library on Mac OS X using MonoOSX and MonoDevelop in order to develop the first code sample.
+
+Contact
+=======
+
+email on gmail: samantha.halfon
+website: www.worldgoneweb.com

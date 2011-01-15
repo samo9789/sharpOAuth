@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace OAuth
 {
-    public class OAuthConsumer : OauthBase
+    public class OAuthConsumer : OAuthBase
     {
         private OAuthConfig _oauthConfig;
 
@@ -45,7 +45,7 @@ namespace OAuth
                         this._oauthConfig.OauthTokenTtl = tokenValue[1];
                         break;
                 }                
-            }            
+            }
         }
 
         private void _openAuthorizationPage()
@@ -62,7 +62,7 @@ namespace OAuth
         {
             string oauth_token = this._oauthConfig.OauthToken;
             OAuthRequest request = new OAuthRequest(this, base._debugType);
-            string tokens = request.request(new Uri("http://trunk.sam.net/oauth/request_token"), oauth_token, "", null).ToString();
+            string tokens = request.request(new Uri(this._oauthConfig.RequestTokenUrl), "GET", oauth_token, "", null).ToString();
             if (tokens == String.Empty || tokens.Length == 0) return null;
 
             // Save Tokens in Configuration            
@@ -81,7 +81,7 @@ namespace OAuth
             //parameters.Add(new QueryParameter("oauth_token", oauth_token));
             parameters.Add(new QueryParameter("oauth_verifier", oauth_verifier));
             OAuthRequest request = new OAuthRequest(this, base._debugType);
-            string tokens = request.request(new Uri("http://trunk.sam.net/oauth/access_token"), oauth_token, oauth_token_secret, parameters).ToString();
+            string tokens = request.request(new Uri(this._oauthConfig.AccessTokenUrl), "GET", oauth_token, oauth_token_secret, parameters).ToString();
             if (tokens == String.Empty || tokens.Length == 0) return null;
 
             // Save Tokens in Configuration
@@ -90,12 +90,12 @@ namespace OAuth
             return tokens;
         }
 
-        public Object request(string url, string method, List<QueryParameter> parameters, string responseFormat)
+        public Object request(string url, string httpMethod, List<QueryParameter> parameters, string responseFormat)
         {            
             string oauth_token = this._oauthConfig.OauthToken;
             string oauth_token_secret = this._oauthConfig.OauthTokenSecret;
             OAuthRequest request = new OAuthRequest(this, base._debugType);
-            string response = request.request(new Uri(url), oauth_token, oauth_token_secret, parameters).ToString();
+            string response = request.request(new Uri(url), httpMethod, oauth_token, oauth_token_secret, parameters).ToString();
             if (response == String.Empty || response.Length == 0)
             {
                 base._debug("The Request Response was empty");

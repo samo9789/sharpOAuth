@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample1_twitterClient", "sample1_twitterClient\sample1_twitterClient.csproj", "{ABEDEEC4-5292-4E31-864E-1ACF46EC5E8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sharpOAuth", "..\sharpOAuth.csproj", "{A92E4764-47F9-45B4-9A4A-B1FCF59A0C15}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A92E4764-47F9-45B4-9A4A-B1FCF59A0C15}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A92E4764-47F9-45B4-9A4A-B1FCF59A0C15}.Debug|x86.Build.0 = Debug|Any CPU
+		{A92E4764-47F9-45B4-9A4A-B1FCF59A0C15}.Release|x86.ActiveCfg = Release|Any CPU
+		{A92E4764-47F9-45B4-9A4A-B1FCF59A0C15}.Release|x86.Build.0 = Release|Any CPU
+		{ABEDEEC4-5292-4E31-864E-1ACF46EC5E8C}.Debug|x86.ActiveCfg = Debug|x86
+		{ABEDEEC4-5292-4E31-864E-1ACF46EC5E8C}.Debug|x86.Build.0 = Debug|x86
+		{ABEDEEC4-5292-4E31-864E-1ACF46EC5E8C}.Release|x86.ActiveCfg = Release|x86
+		{ABEDEEC4-5292-4E31-864E-1ACF46EC5E8C}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = sample1_twitterClient\sample1_twitterClient.csproj
+	EndGlobalSection
+EndGlobal

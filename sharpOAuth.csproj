@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OauthBase.cs" />
     <Compile Include="OAuthConfig.cs" />
     <Compile Include="OAuthConsumer.cs" />
     <Compile Include="OAuthRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OAuthBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README" />
