@@ -6,10 +6,10 @@ using System.Text;
 
 namespace OAuth
 {
-    public class OauthBase
+    public class OAuthBase
     {        
 
-        public OauthBase(string debugType)
+        public OAuthBase(string debugType)
         {
             this._debugType = debugType;
         }
@@ -66,7 +66,7 @@ namespace OAuth
             for (int i = 0; i < parameters.Count; i++)
             {
                 p = parameters[i];
-                sb.AppendFormat("{0}={1}", p.Name, p.Value);
+                sb.AppendFormat("{0}={1}", p.Name,  OAuthBase.UrlEncode(p.Value));
 
                 if (i < parameters.Count - 1)
                 {
