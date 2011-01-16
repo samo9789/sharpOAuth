@@ -5,12 +5,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample1_twitterClient", "sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sharpOAuth", "..\sharpOAuth.csproj", "{A92E4764-47F9-45B4-9A4A-B1FCF59A0C15}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample2_twitterWeb", "sample2_twitterWeb\sample2_twitterWeb.csproj", "{6B6B0C99-BD7B-4FEE-B004-4C6BAE592946}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B6B0C99-BD7B-4FEE-B004-4C6BAE592946}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B6B0C99-BD7B-4FEE-B004-4C6BAE592946}.Debug|x86.Build.0 = Debug|Any CPU
+		{6B6B0C99-BD7B-4FEE-B004-4C6BAE592946}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B6B0C99-BD7B-4FEE-B004-4C6BAE592946}.Release|x86.Build.0 = Release|Any CPU
 		{A92E4764-47F9-45B4-9A4A-B1FCF59A0C15}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{A92E4764-47F9-45B4-9A4A-B1FCF59A0C15}.Debug|x86.Build.0 = Debug|Any CPU
 		{A92E4764-47F9-45B4-9A4A-B1FCF59A0C15}.Release|x86.ActiveCfg = Release|Any CPU

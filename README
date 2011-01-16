@@ -17,7 +17,9 @@ The code samples call the twitter API for test purposes.
 You need a Twitter consumerKey and consumerSecret to run them.
 
 The first code sample [sample1_twitterClient] calls the Twitter API like a Desktop/Mobile application would. That means that the authorization process is completed by entering a pincode (in the console window).
-The second code sample [sample2_twitterWeb (not yet implemented)] will call the Twitter API as a web application. The authorization process will open the callbackUrl.
+	=> To run this test, edit the file "Main.cs" and enter your consumerKey and consumerSecret then compile the project.
+The second code sample [sample2_twitterWeb] calls the Twitter API as a web application. Once the authorization process is completed, twitter redirects the user to the callback URL you defined in your twitter application settings.
+	=> To run this test, edit the configuration file "web.config", enter your consumerKey and consumerSecret then recompile the application.
 
 Compatibility
 =============
