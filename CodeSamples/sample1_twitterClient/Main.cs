@@ -83,8 +83,8 @@ namespace sample1_twitterClient
 		public static void Main (string[] args)
 		{
 			TwitterOAuthTest twitterOauthTest = new TwitterOAuthTest();
-			//twitterOauthTest.test_twitterOauthClient();
-			twitterOauthTest.test_twitterOauthSuperClient();
+			twitterOauthTest.test_twitterOauthClient();
+			//twitterOauthTest.test_twitterOauthSuperClient();
 		}
 	}
 }
